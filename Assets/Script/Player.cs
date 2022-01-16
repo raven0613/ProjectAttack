@@ -45,27 +45,33 @@ namespace ProjectAttack
         private void Awake()
         {
             m_debuger = new Debuger(this);
+            CombatManager.Instance.Register(this);
         }
 
-        private void Update()
+        //private void Update()
+        //{
+        //    m_debuger.Tick();
+
+        //    switch(m_state)
+        //    {
+        //        case CharacterState.Alive:
+        //            {
+        //                DetectInput();
+        //                break;
+        //            }
+        //        case CharacterState.Died:
+        //            {
+        //                break;
+        //            }
+        //    }
+        //}
+
+        public void TickDebuger()
         {
             m_debuger.Tick();
-
-            switch(m_state)
-            {
-                case CharacterState.Alive:
-                    {
-                        DetectInput();
-                        break;
-                    }
-                case CharacterState.Died:
-                    {
-                        break;
-                    }
-            }
         }
 
-        private void DetectInput()
+        public void DetectInput()
         {
             if (Input.GetMouseButtonDown(0))
             {
