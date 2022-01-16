@@ -8,15 +8,20 @@ namespace ProjectAttack
     {
         private int m_HP = 100;
         private int m_attack = 100;
-        private float m_movespeed = 100f;
-        private float m_backspeed = 100f;
+        //private float m_movespeed = 100f;
+        //private float m_backspeed = 100f;
 
-        private void Update()
+        private void Awake()
         {
-            Move(m_movespeed);
+            CombatManager.Instance.Register(this);
         }
 
-        private void Move(float moveDelta)
+        //private void Update()
+        //{
+        //    Move(m_movespeed);
+        //}
+
+        public void Move(float moveDelta)
         {
             gameObject.transform.position += Vector3.left * moveDelta * Time.deltaTime;
         }
