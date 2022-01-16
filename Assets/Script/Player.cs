@@ -1,59 +1,99 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ProjectAttack
 {
     public class Player : MonoBehaviour
     {
-        private CharacterData m_characterData;
+        private class Debuger
+        {
+            private Player m_player;
 
-        public float StartPosition = 1f;
+            public Debuger(Player player)
+            {
+                m_player = player;
+            }
 
-        public static Player instance;
+            public void Tick()
+            {
+                if(Input.GetKeyDown(KeyCode.S))
+                {
+                    ForceDie();
+                }
+            }
 
-        public int PlayerHP;
-        public int PlayerAttack;
-        public float PlayerAttackRange;
-        
+            private void ForceDie()
+            {
+                m_player.GetHit(9999);
+            }
+        }
 
+        private enum CharacterState
+        {
+            Alive,
+            Died
+        }
 
-        public bool Player_isAlive = true;
+        [SerializeField] private Weapon m_weapon;
+
+        private int m_hp = 100;
+        private int m_attack = 100;
+
+        private CharacterState m_state = CharacterState.Alive;
+
+        private Debuger m_debuger;
 
         private void Awake()
         {
-            m_characterData = CharacterData.GetTestData();
-            instance = this;
-
-            PlayerHP = m_characterData.HP;
-            PlayerAttack = m_characterData.Attack;
-            PlayerAttackRange = m_characterData.AttackRange + gameObject.transform.position.x;
-            Player_isAlive = true;
-
-            StartPosition = gameObject.transform.position.x;
+            m_debuger = new Debuger(this);
         }
 
         private void Update()
         {
-            if(PlayerHP > 0)
-            {
-                Player_isAlive = true;
-            }
+            m_debuger.Tick();
 
-            if(PlayerHP <= 0)
+            switch(m_state)
             {
-                PlayerHP = 0;
-                gameObject.SetActive(false);
-                Debug.Log("PlayerDead");
-                Player_isAlive = false;
+                case CharacterState.Alive:
+                    {
+                        DetectInput();
+                        break;
+                    }
+                case CharacterState.Died:
+                    {
+                        break;
+                    }
             }
-
         }
 
-        public void GameRestart()
+        private void DetectInput()
         {
-            PlayerHP = m_characterData.HP;
-            gameObject.SetActive(true);
+            if (Input.GetMouseButtonDown(0))
+            {
+                Attack();
+            }
+        }
+
+        private void Attack()
+        {
+            m_weapon.StartRotate();
+        }
+
+        public void GetHit(int damage)
+        {
+            if (m_state != CharacterState.Alive)
+                return;
+
+            m_hp -= damage;
+
+            if (m_hp <= 0)
+            {
+                Die();
+            }
+        }
+
+        private void Die()
+        {
+            m_state = CharacterState.Died;
         }
     }
 }

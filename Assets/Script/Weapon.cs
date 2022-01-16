@@ -22,20 +22,14 @@ namespace ProjectAttack
             WeaponStartPosition = gameObject.transform.position;
         }
 
+        public void StartRotate()
+        {
+            gameObject.transform.rotation = new Quaternion(0, 0, 0, 0);
+            WeaponStartRotate = true;
+        }
 
         void Update()
         {
-            
-
-            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
-            {
-
-                gameObject.transform.rotation = new Quaternion(0, 0, 0, 0);
-                WeaponStartRotate = true;
-
-                
-            }
-
             if(WeaponStartRotate == true)
             {
                 WeaponRotatePosition = 0;
@@ -55,8 +49,6 @@ namespace ProjectAttack
                     WeaponTimetoStopTimer = 0;
                 }
             }
-
-
         }
     }
 }
