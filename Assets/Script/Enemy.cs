@@ -3,121 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProjectAttack
-{   public class Enemy : MonoBehaviour
+{
+    public class Enemy : MonoBehaviour
     {
-        private CharacterData m_characterData;
-
-        public float HurtPosition;
-
-        public int EnemyHP;
-        public int EnemyAttack;
-        public float EnemyMoveSpeed;
-
-        public float BackSpeed;
-        public bool EnemyisHit;
-        private void Awake()
-        {
-            m_characterData = CharacterData.GetTestData();
-            EnemyHP = m_characterData.HP + 20;
-            EnemyAttack = m_characterData.Attack;
-            EnemyMoveSpeed = m_characterData.MoveSpeed;
-
-            EnemyisHit = false;
-
-            BackSpeed = 30f;
-
-            //HurtPosition = Player.instance.StartPosition +0.5f;
-            HurtPosition = -3.5f;
-        }
+        private int m_HP = 100;
+        private int m_attack = 100;
+        private float m_movespeed = 100f;
+        private float m_backspeed = 100f;
 
         private void Update()
         {
-            transform.position += Vector3.left * EnemyMoveSpeed * Time.deltaTime;
-
-
-            HurtPlayer();
-            EnemygotHurt();
-            EnemyDead();
-
-
-            if (EnemyisHit == true)
-            {
-                EnemyhurtMove();
-
-                if (Player.instance.Player_isAlive == true)
-                {
-                    if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
-                    {
-                        BackSpeed = 30;
-                        if (gameObject.transform.position.x >= Player.instance.PlayerAttackRange)
-                        {
-                            EnemyisHit = false;
-                        }
-                    }
-                }
-            }
-
+            Move(m_movespeed);
         }
 
-        private void HurtPlayer()
+        private void Move(float moveDelta)
         {
-            if(gameObject.transform.position.x <= HurtPosition)
-            {
-                Player.instance.PlayerHP = Player.instance.PlayerHP - EnemyAttack;
-
-                Destroy(gameObject);
-            }
+            gameObject.transform.position += Vector3.left * moveDelta * Time.deltaTime;
         }
 
-        private void EnemygotHurt()
+        private void Hit(Player player)
         {
-            if(Player.instance.Player_isAlive == true)
-            {
-                if (gameObject.transform.position.x <= Player.instance.PlayerAttackRange)
-                {
-                    if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
-                    {
-                        EnemyisHit = true;
-                        EnemyHP = EnemyHP - Player.instance.PlayerAttack;
-
-                    }
-                }
-            }
-
-
+            player.GetHit(m_attack);
         }
 
-        private void EnemyhurtMove()
+        private void GetHit(int damage)
         {
-            
+            m_HP -= damage;
 
-            BackSpeed = BackSpeed - 200 * Time.deltaTime;
-            if (BackSpeed <= 0)
-            {
-                BackSpeed = 0;
-            }
-            EnemyMoveSpeed = 0;
-            gameObject.transform.position = gameObject.transform.position + Vector3.right * BackSpeed * Time.deltaTime;
-
-
-            EnemyMoveSpeed = EnemyMoveSpeed + 800 * Time.deltaTime;
-            if (EnemyMoveSpeed >= m_characterData.MoveSpeed)
-            {
-                EnemyMoveSpeed = m_characterData.MoveSpeed;
-            }
-            gameObject.transform.position += Vector3.left * EnemyMoveSpeed * Time.deltaTime;
         }
 
-        
-
-        private void EnemyDead()
+        private void Die()
         {
-            if(EnemyHP <= 0)
-            {
-                Debug.Log("EnemyDead");
-                Destroy(gameObject);
-            }
-
+            Destroy(gameObject);
         }
+
     }    
 }

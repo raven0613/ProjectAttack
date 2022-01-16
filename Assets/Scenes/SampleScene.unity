@@ -380,11 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ffba902558e25f448afd209bcda8d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartPosition: -4
-  PlayerHP: 0
-  PlayerAttack: 0
-  PlayerAttackRange: 0
-  Player_doAttack: 0
+  m_weapon: {fileID: 1668728676}
 --- !u!1 &1236320714
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,7 +463,7 @@ GameObject:
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1410581061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1109,6 +1105,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3659711082174032335, guid: d564bc1e1777a8248825f842edbc940a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d564bc1e1777a8248825f842edbc940a, type: 3}
