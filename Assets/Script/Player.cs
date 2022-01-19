@@ -37,6 +37,9 @@ namespace ProjectAttack
 
         private int m_hp = 100;
         private int m_attack = 100;
+        private float m_attackrange = 2f;
+        public float m_attackpoint;
+
 
         private CharacterState m_state = CharacterState.Alive;
 
@@ -46,6 +49,8 @@ namespace ProjectAttack
         {
             m_debuger = new Debuger(this);
             CombatManager.Instance.Register(this);
+
+            m_attackpoint = gameObject.transform.position.x + m_attackrange;
         }
 
         //private void Update()
@@ -82,6 +87,7 @@ namespace ProjectAttack
         private void Attack()
         {
             m_weapon.StartRotate();
+
         }
 
         public void GetHit(int damage)
@@ -100,6 +106,7 @@ namespace ProjectAttack
         private void Die()
         {
             m_state = CharacterState.Died;
+            gameObject.SetActive(false);
         }
 
     }

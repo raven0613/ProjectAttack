@@ -24,17 +24,49 @@ namespace ProjectAttack
             UnityEventSender.OnUnityUpdate += UnityEventSender_OnUnityUpdate;
         }
 
+        public bool inattackrange;
+
         private void UnityEventSender_OnUnityUpdate()
         {
             for(int i = 0; i < m_players.Count; i++)
             {
                 m_players[i].TickDebuger();
                 m_players[i].DetectInput();
+
+
             }
 
             for (int i = 0; i < m_enemies.Count; i++)
             {
-                m_enemies[i].Move(100f);
+                m_enemies[i].Move(10f);
+
+
+
+                for (int j = 0; j < m_players.Count; j++) 
+                {
+                    if (m_enemies[i].transform.position.x <= m_players[j].m_attackpoint)
+                    {
+                        inattackrange = true;
+
+                    }
+
+                    else
+                    {
+                        inattackrange = false;
+                    }
+
+                    if (m_enemies[i].transform.position.x <= m_players[j].transform.position.x)   //enemy hit player
+                    {
+                        m_enemies[i].Hit(m_players[j]);
+                        m_enemies[i].Die();
+                        Unregister(m_enemies[i]);
+                    }
+
+
+
+                }
+
+
             }
         }
 
@@ -72,5 +104,8 @@ namespace ProjectAttack
 
             m_enemies.Remove(enemy);
         }
+
+
+
     }
 }
