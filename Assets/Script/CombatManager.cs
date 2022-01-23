@@ -25,6 +25,7 @@ namespace ProjectAttack
         }
 
         public bool inattackrange;
+        public bool attackeffect;
 
         private void UnityEventSender_OnUnityUpdate()
         {
@@ -33,8 +34,8 @@ namespace ProjectAttack
                 m_players[i].TickDebuger();
                 m_players[i].DetectInput();
 
-
             }
+
 
             for (int i = 0; i < m_enemies.Count; i++)
             {
@@ -47,7 +48,16 @@ namespace ProjectAttack
                     if (m_enemies[i].transform.position.x <= m_players[j].m_attackpoint)
                     {
                         inattackrange = true;
+                        
 
+                        if(attackeffect == true)
+                        {
+                            m_players[j].HitEnemy(m_enemies[i]);
+
+                        }
+                        
+
+                        
                     }
 
                     else
@@ -57,7 +67,7 @@ namespace ProjectAttack
 
                     if (m_enemies[i].transform.position.x <= m_players[j].transform.position.x)   //enemy hit player
                     {
-                        m_enemies[i].Hit(m_players[j]);
+                        m_enemies[i].HitPlayer(m_players[j]);
                         m_enemies[i].Die();
                         Unregister(m_enemies[i]);
                     }

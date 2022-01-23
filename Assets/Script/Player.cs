@@ -82,13 +82,37 @@ namespace ProjectAttack
             {
                 Attack();
             }
+
+            //if (CombatManager.Instance.inattackrange == true)
+            //{
+            //    if (Input.GetMouseButtonDown(0))
+            //    {
+            //        CombatManager.Instance.attackeffect = true;
+            //    }
+            //}
+
         }
 
         private void Attack()
         {
             m_weapon.StartRotate();
 
+            if (CombatManager.Instance.inattackrange == true)
+            {
+                CombatManager.Instance.attackeffect = true;
+
+            }
         }
+
+        public void HitEnemy(Enemy enemy)
+        {
+            if (CombatManager.Instance.inattackrange == true)
+            {
+                enemy.GetHit(m_attack);
+            }
+            
+        }
+
 
         public void GetHit(int damage)
         {

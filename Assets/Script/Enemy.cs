@@ -7,8 +7,8 @@ namespace ProjectAttack
 {
     public class Enemy : MonoBehaviour
     {
-        private int m_HP = 100;
-        private int  m_attack { get; set; } = 100; 
+        private int m_HP { get; set; } = 100;
+        private int  m_attack = 100; 
         //private float m_movespeed = 100f;
         //private float m_backspeed = 100f;
 
@@ -28,7 +28,7 @@ namespace ProjectAttack
 
         }
 
-        public void Hit(Player player)
+        public void HitPlayer(Player player)
         {
             player.GetHit(m_attack);
         }
@@ -37,13 +37,21 @@ namespace ProjectAttack
         {
             m_HP -= damage;
 
-        }
+            if (m_HP <= 0)
+            {
+                Die();
+            }
 
+            Debug.Log("hit enemy");
+        }
 
 
         public void Die()
         {
             Destroy(gameObject);
+
+            CombatManager.Instance.Unregister(this);
+
         }
 
 
