@@ -7,7 +7,7 @@ namespace ProjectAttack
 {
     public class Enemy : MonoBehaviour
     {
-        private int m_HP { get; set; } = 100;
+        private int m_HP= 100;
         private int  m_attack = 100; 
         //private float m_movespeed = 100f;
         //private float m_backspeed = 100f;
@@ -37,6 +37,8 @@ namespace ProjectAttack
         {
             m_HP -= damage;
 
+            Move(-5);
+
             if (m_HP <= 0)
             {
                 Die();
@@ -49,11 +51,10 @@ namespace ProjectAttack
         public void Die()
         {
             Destroy(gameObject);
-
             CombatManager.Instance.Unregister(this);
-
+            
         }
-
-
+        //先註銷再摧毀=搜不到
+        //先摧毀再註銷=會報錯
     }    
 }

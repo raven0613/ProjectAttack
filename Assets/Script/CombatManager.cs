@@ -39,7 +39,7 @@ namespace ProjectAttack
 
             for (int i = 0; i < m_enemies.Count; i++)
             {
-                m_enemies[i].Move(10f);
+                m_enemies[i].Move(5f);
 
 
 
@@ -49,29 +49,29 @@ namespace ProjectAttack
                     {
                         inattackrange = true;
                         
-
-                        if(attackeffect == true)
-                        {
-                            m_players[j].HitEnemy(m_enemies[i]);
-
-                        }
-                        
-
-                        
                     }
-
                     else
                     {
                         inattackrange = false;
+                    }
+
+
+                    if (attackeffect == true)
+                    {
+                        m_players[j].HitEnemy(m_enemies[i]);
+                        
+                        attackeffect = false;
                     }
 
                     if (m_enemies[i].transform.position.x <= m_players[j].transform.position.x)   //enemy hit player
                     {
                         m_enemies[i].HitPlayer(m_players[j]);
                         m_enemies[i].Die();
-                        Unregister(m_enemies[i]);
+
                     }
 
+                    if (m_enemies.Count <= 0) //如果都死光會out of range所以要return
+                        return;
 
 
                 }

@@ -35,7 +35,7 @@ namespace ProjectAttack
 
         [SerializeField] private Weapon m_weapon;
 
-        private int m_hp = 100;
+        private int m_hp = 1000;
         private int m_attack = 100;
         private float m_attackrange = 2f;
         public float m_attackpoint;
@@ -99,17 +99,17 @@ namespace ProjectAttack
 
             if (CombatManager.Instance.inattackrange == true)
             {
+                Debug.Log("in attack range");
                 CombatManager.Instance.attackeffect = true;
-
             }
         }
 
         public void HitEnemy(Enemy enemy)
         {
-            if (CombatManager.Instance.inattackrange == true)
-            {
+            //if (CombatManager.Instance.inattackrange == true)
+            //{
                 enemy.GetHit(m_attack);
-            }
+            //}
             
         }
 
@@ -131,6 +131,8 @@ namespace ProjectAttack
         {
             m_state = CharacterState.Died;
             gameObject.SetActive(false);
+
+
         }
 
     }
