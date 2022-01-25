@@ -37,7 +37,7 @@ namespace ProjectAttack
 
         private int m_hp = 1000;
         private int m_attack = 100;
-        private float m_attackrange = 2f;
+        private float m_attackrange = 5f;
         public float m_attackpoint;
 
 
@@ -80,16 +80,10 @@ namespace ProjectAttack
         {
             if (Input.GetMouseButtonDown(0))
             {
+                CombatManager.Instance.playerinput = true;
                 Attack();
-            }
 
-            //if (CombatManager.Instance.inattackrange == true)
-            //{
-            //    if (Input.GetMouseButtonDown(0))
-            //    {
-            //        CombatManager.Instance.attackeffect = true;
-            //    }
-            //}
+            }
 
         }
 
@@ -97,19 +91,11 @@ namespace ProjectAttack
         {
             m_weapon.StartRotate();
 
-            if (CombatManager.Instance.inattackrange == true)
-            {
-                Debug.Log("in attack range");
-                CombatManager.Instance.attackeffect = true;
-            }
         }
 
         public void HitEnemy(Enemy enemy)
         {
-            //if (CombatManager.Instance.inattackrange == true)
-            //{
-                enemy.GetHit(m_attack);
-            //}
+            enemy.GetHit(m_attack);
             
         }
 

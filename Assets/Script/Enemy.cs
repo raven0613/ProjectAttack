@@ -7,20 +7,19 @@ namespace ProjectAttack
 {
     public class Enemy : MonoBehaviour
     {
-        private int m_HP= 100;
-        private int  m_attack = 100; 
+        private int m_HP= 300;
+        private int  m_attack = 100;
         //private float m_movespeed = 100f;
         //private float m_backspeed = 100f;
 
+        public bool gethit;
         private void Awake()
         {
             CombatManager.Instance.Register(this);
+            gethit = false;
         }
 
-        //private void Update()
-        //{
-        //    Move(m_movespeed);
-        //}
+
 
         public void Move(float moveDelta)
         {
@@ -35,9 +34,9 @@ namespace ProjectAttack
 
         public void GetHit(int damage)
         {
-            m_HP -= damage;
-
-            Move(-5);
+            
+                m_HP -= damage;
+            CombatManager.Instance.playerinput = false;
 
             if (m_HP <= 0)
             {
@@ -52,9 +51,8 @@ namespace ProjectAttack
         {
             Destroy(gameObject);
             CombatManager.Instance.Unregister(this);
-            
+
         }
-        //先註銷再摧毀=搜不到
-        //先摧毀再註銷=會報錯
+
     }    
 }
