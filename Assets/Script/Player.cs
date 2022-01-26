@@ -19,6 +19,16 @@ namespace ProjectAttack
                 {
                     ForceDie();
                 }
+
+                if(CombatManager.Instance.playerinput == true)
+                {
+                    Debug.Log("player input O");
+                }
+                if (CombatManager.Instance.playerinput == false)
+                {
+                    Debug.Log("player input X");
+                }
+
             }
 
             private void ForceDie()
@@ -35,7 +45,7 @@ namespace ProjectAttack
 
         [SerializeField] private Weapon m_weapon;
 
-        private int m_hp = 1000;
+        private int m_hp = 100000;
         private int m_attack = 100;
         private float m_attackrange = 5f;
         public float m_attackpoint;

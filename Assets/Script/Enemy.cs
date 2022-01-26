@@ -7,16 +7,18 @@ namespace ProjectAttack
 {
     public class Enemy : MonoBehaviour
     {
-        private int m_HP= 300;
+        private int m_HP= 5000;
         private int  m_attack = 100;
         //private float m_movespeed = 100f;
         //private float m_backspeed = 100f;
 
-        public bool gethit;
+        public bool gethitback;
+        public bool hiteffect;
         private void Awake()
         {
             CombatManager.Instance.Register(this);
-            gethit = false;
+            gethitback = false;
+            hiteffect = false;
         }
 
 
@@ -34,14 +36,23 @@ namespace ProjectAttack
 
         public void GetHit(int damage)
         {
-            
-                m_HP -= damage;
-            CombatManager.Instance.playerinput = false;
-
-            if (m_HP <= 0)
+            if (hiteffect == true)
             {
-                Die();
+                m_HP -= damage;
+
+                
+
+                if (m_HP <= 0)
+                {
+                    Die();
+
+                }
+
+                hiteffect = false;
+
             }
+
+
 
             Debug.Log("hit enemy");
         }

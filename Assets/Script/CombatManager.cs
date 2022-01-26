@@ -39,16 +39,15 @@ namespace ProjectAttack
 
             for (int i = 0; i < m_enemies.Count; i++)
             {
-                if(m_enemies[i].gethit == false) //正常時候
+                if(m_enemies[i].gethitback == false) //正常時候
                 {
                     m_enemies[i].Move(5f);
                 }
-                if (m_enemies[i].gethit == true) //受擊後退
+                if (m_enemies[i].gethitback == true) //受擊後退
                 {
                     m_enemies[i].Move(0f);
                     m_enemies[i].Move(-10f);
                 }
-
 
 
                 for (int j = 0; j < m_players.Count; j++) 
@@ -57,16 +56,24 @@ namespace ProjectAttack
                     {
                         if (m_enemies[i].transform.position.x <= m_players[j].m_attackpoint)
                         {
-                            m_players[j].HitEnemy(m_enemies[i]);
-                            m_enemies[i].gethit = true;
                             
-                        }
+                            m_enemies[i].gethitback = true;
+                            m_enemies[i].hiteffect = true;
+                            m_players[j].HitEnemy(m_enemies[i]);
 
+                        }
+                        else
+                        {
+                            playerinput = false;
+                        }
+                        playerinput = false;
                     }
+
+
 
                     if (m_enemies[i].transform.position.x >= m_players[j].m_attackpoint + 2) //超出受擊後退範圍
                     {
-                        m_enemies[i].gethit = false;
+                        m_enemies[i].gethitback = false;
                     }
 
 
