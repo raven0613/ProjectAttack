@@ -56,19 +56,21 @@ namespace ProjectAttack
                     {
                         if (m_enemies[i].transform.position.x <= m_players[j].m_attackpoint)
                         {
-                            
                             m_enemies[i].gethitback = true;
                             m_enemies[i].hiteffect = true;
-                            m_players[j].HitEnemy(m_enemies[i]);
 
-                        }
-                        else
-                        {
                             playerinput = false;
                         }
+                        if (m_enemies[i].transform.position.x <= m_players[j].m_attackpoint)
+                            return;
+
                         playerinput = false;
                     }
 
+                    if(m_enemies[i].hiteffect == true)
+                    {
+                        m_players[j].HitEnemy(m_enemies[i]);
+                    }
 
 
                     if (m_enemies[i].transform.position.x >= m_players[j].m_attackpoint + 2) //超出受擊後退範圍

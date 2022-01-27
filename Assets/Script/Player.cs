@@ -24,10 +24,10 @@ namespace ProjectAttack
                 {
                     Debug.Log("player input O");
                 }
-                if (CombatManager.Instance.playerinput == false)
-                {
-                    Debug.Log("player input X");
-                }
+                //if (CombatManager.Instance.playerinput == false)
+                //{
+                //    Debug.Log("player input X");
+                //}
 
             }
 

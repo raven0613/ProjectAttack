@@ -36,23 +36,15 @@ namespace ProjectAttack
 
         public void GetHit(int damage)
         {
-            if (hiteffect == true)
+
+            m_HP -= damage;
+
+            if (m_HP <= 0)
             {
-                m_HP -= damage;
-
-                
-
-                if (m_HP <= 0)
-                {
-                    Die();
-
-                }
-
-                hiteffect = false;
-
+               Die();
             }
 
-
+            hiteffect = false;
 
             Debug.Log("hit enemy");
         }
