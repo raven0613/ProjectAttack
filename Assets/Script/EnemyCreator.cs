@@ -30,7 +30,7 @@ namespace ProjectAttack
                 _Clone.transform.position = gameObject.transform.position;
 
                 CreateTimer = 0;
-                CreateCDtime = Random.Range(0.2f, 2);
+                CreateCDtime = Random.Range(0.5f, 2);
             }
 
         }

@@ -26,6 +26,9 @@ namespace ProjectAttack
 
 
         public bool playerinput = false;
+        public bool enemyInrange = false;
+        private int enemytimer;
+
 
         private void UnityEventSender_OnUnityUpdate()
         {
@@ -39,62 +42,75 @@ namespace ProjectAttack
 
             for (int i = 0; i < m_enemies.Count; i++)
             {
-                if(m_enemies[i].gethitback == false) //正常時候
+                if (m_enemies[i].gethit_stun == false) //正常時候的移動
                 {
                     m_enemies[i].Move(5f);
                 }
-                if (m_enemies[i].gethitback == true) //受擊後退
+                if (m_enemies[i].gethit_stun == true) //受擊後退
                 {
                     m_enemies[i].Move(0f);
-                    m_enemies[i].Move(-10f);
+                    m_enemies[i].Move(-0.1f);
                 }
-
+                if (m_enemies[i].gethit_back == true)
+                {
+                    m_enemies[i].Move(-15f);
+                }
 
                 for (int j = 0; j < m_players.Count; j++) 
                 {
-                    if(playerinput == true) //偵測輸入的時候 所有敵人的位置 如果在攻擊範圍內就叫出玩家攻擊    但他如果馬上關掉就只打的到一個  需要全部都吃到傷害  才關掉  但這樣會變成開啟的時候所有都會瘋狂吃傷害而死掉
+                    if (m_enemies[i].transform.position.x <= m_players[j].m_attackpoint) //在攻擊範圍內  武器定格開啟
                     {
-                        if (m_enemies[i].transform.position.x <= m_players[j].m_attackpoint)
+                        m_players[j].WeaponAttackRating();
+                    }
+
+                    if (playerinput == true) //偵測輸入的時候 所有敵人的位置
+                    {
+                        if (m_enemies[i].transform.position.x <= m_players[j].m_attackpoint) //在攻擊範圍內  後退開啟
                         {
-                            m_enemies[i].gethitback = true;
+                            m_enemies[i].gethit_stun = true;
+                        }
+                    }
+
+                    if(m_enemies[i].gethit_stun == true)
+                    {
+                        enemytimer = enemytimer + 1;
+                          
+                        if (enemytimer >= 60)  //超過暈眩時間  後退關閉/受傷開啟
+                        {
+                            m_enemies[i].gethit_back = true;
+                            m_enemies[i].gethit_stun = false;
+                            enemytimer = 0;
+                        }
+                    }
+                    if (m_enemies[i].gethit_back == true)
+                    {
+                        if (m_enemies[i].transform.position.x >= m_players[j].m_attackpoint + 2) //超出受擊後退範圍  後退關閉/受傷開啟
+                        {
+                            m_enemies[i].gethit_back = false;
                             m_enemies[i].hiteffect = true;
 
-                            playerinput = false;
+
                         }
-                        if (m_enemies[i].transform.position.x <= m_players[j].m_attackpoint)
-                            return;
-
-                        playerinput = false;
                     }
 
-                    if(m_enemies[i].hiteffect == true)
+                        if (m_enemies[i].hiteffect == true) //攻擊有效開啟
                     {
-                        m_players[j].HitEnemy(m_enemies[i]);
+                         m_players[j].HitEnemy(m_enemies[i]);
+                        
                     }
-
-
-                    if (m_enemies[i].transform.position.x >= m_players[j].m_attackpoint + 2) //超出受擊後退範圍
-                    {
-                        m_enemies[i].gethitback = false;
-                    }
-
-
-                    if (m_enemies[i].transform.position.x <= m_players[j].transform.position.x)   //enemy hit player
-                    {
-                        m_enemies[i].HitPlayer(m_players[j]);
-                        m_enemies[i].Die();
-
-                    }
-
-
                     if (m_enemies.Count <= 0) //如果都死光會報錯:out of range  所以要return
                         return;
 
+                    if (m_enemies[i].transform.position.x <= m_players[j].transform.position.x + 0.5f)   //enemy hit player
+                    {
+                        m_enemies[i].HitPlayer(m_players[j]);
+                        m_enemies[i].Die();
+                    }
+
 
                 }
-
-
             }
+            playerinput = false;
         }
 
         private List<Player> m_players = new List<Player>();

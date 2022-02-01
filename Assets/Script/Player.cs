@@ -24,10 +24,6 @@ namespace ProjectAttack
                 {
                     Debug.Log("player input O");
                 }
-                //if (CombatManager.Instance.playerinput == false)
-                //{
-                //    Debug.Log("player input X");
-                //}
 
             }
 
@@ -45,9 +41,9 @@ namespace ProjectAttack
 
         [SerializeField] private Weapon m_weapon;
 
-        private int m_hp = 100000;
+        private int m_hp = 200;
         private int m_attack = 100;
-        private float m_attackrange = 5f;
+        private float m_attackrange = 2f;
         public float m_attackpoint;
 
 
@@ -106,9 +102,11 @@ namespace ProjectAttack
         public void HitEnemy(Enemy enemy)
         {
             enemy.GetHit(m_attack);
-            
         }
-
+        public void WeaponAttackRating()
+        {
+            m_weapon.AttackRating();
+        }
 
         public void GetHit(int damage)
         {

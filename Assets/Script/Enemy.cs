@@ -7,18 +7,18 @@ namespace ProjectAttack
 {
     public class Enemy : MonoBehaviour
     {
-        private int m_HP= 5000;
+        private int m_HP= 200;
         private int  m_attack = 100;
-        //private float m_movespeed = 100f;
-        //private float m_backspeed = 100f;
 
-        public bool gethitback;
+        public bool gethit_back;
         public bool hiteffect;
+        public bool gethit_stun;
         private void Awake()
         {
             CombatManager.Instance.Register(this);
-            gethitback = false;
+            gethit_back = false;
             hiteffect = false;
+            gethit_stun = false;
         }
 
 
@@ -32,30 +32,27 @@ namespace ProjectAttack
         public void HitPlayer(Player player)
         {
             player.GetHit(m_attack);
+
         }
 
         public void GetHit(int damage)
         {
-
+            Debug.Log("hit enemy");
             m_HP -= damage;
+
+            hiteffect = false;
 
             if (m_HP <= 0)
             {
                Die();
             }
-
-            hiteffect = false;
-
-            Debug.Log("hit enemy");
         }
-
-
         public void Die()
         {
             Destroy(gameObject);
             CombatManager.Instance.Unregister(this);
-
         }
+
 
     }    
 }
